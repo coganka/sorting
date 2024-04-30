@@ -21,14 +21,14 @@ def selectionSort(arr):
     return arr
 
 
-def insertionSort(arr):
-    for i in range(len(arr)):
-        if arr[i] < arr[0]:
-            arr.insert(0, arr.pop(i))
-        else:
-            for j in range(1,len(arr)):
-                if arr[i] <= arr[j] and arr[i] >= arr[j-1]:
-                    arr.insert(j, arr.pop(i))
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and key < arr[j]:
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = key
     return arr
 
 
@@ -79,6 +79,33 @@ def quick(arr, start, end):
     return
 
 
+def heapify(arr, n, i):
+    largest = i
+    left_child = 2 * i + 1
+    right_child = 2 * i + 2
+
+    if left_child < n and arr[left_child] > arr[largest]:
+        largest = left_child
+
+    if right_child < n and arr[right_child] > arr[largest]:
+        largest = right_child
+
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        heapify(arr, n, largest)
+
+def heap_sort(arr):
+    n = len(arr)
+
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(arr, n, i)
+
+    for i in range(n - 1, 0, -1):
+        arr[i], arr[0] = arr[0], arr[i]  
+        heapify(arr, i, 0)
+    return arr
+
+
 def swap(i, j, arr):
     temp = arr[i]
     arr[i] = arr[j]
@@ -86,4 +113,4 @@ def swap(i, j, arr):
     return arr
 
 test = [5, 1, 0, 2, 8, 4, 6, 1]
-print(insertionSort(test))
+print(insertion_sort(test))
